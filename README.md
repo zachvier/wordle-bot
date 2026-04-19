@@ -4,7 +4,7 @@ A Discord bot that posts a daily AI-generated roast of your group's Wordle score
 
 Built for a small, persistent friend group that shares Wordle scores in one channel. Designed to run 24/7 on cheap hardware — a Raspberry Pi, a home server, a small VPS, or anything else that can keep a Python process alive.
 
-This repo is the source for the **Wordle Roast Bot** Discord application: https://discord.com/discovery/applications/1211781489931452447. If you want to run your own instance against your own group, fork this and follow the setup below — you'll register your own Discord application and use your own token, not this one.
+This repo is the source for the **Wordle Roast Bot** Discord application. If you want to run your own instance against your own group, fork this and follow the setup below — you'll register your own Discord application and use your own token, not this one. You'll want to be running, and actively using, the official [Wordle bot](https://discord.com/discovery/applications/1211781489931452447) already. 
 
 ## Features
 
