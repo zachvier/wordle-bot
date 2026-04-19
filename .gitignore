@@ -1,0 +1,30 @@
+# Secret keys — never commit
+.env
+
+# Runtime data files — auto-created by the bot, contain your group's data
+player_notes.json
+roast_history.json
+score_history.json
+animal_history.json
+roast_archive.json
+aliases.json
+user_map.json
+animal_request.json
+temp_roasts.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# Backup files created during development
+*.bak
+*.broken
+
+# macOS
+.DS_Store
+
+# Local Claude Code config
+.claude/

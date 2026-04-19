@@ -1,0 +1,11 @@
+# discord.py — the Python library for interacting with the Discord API
+discord.py>=2.3.0
+
+# anthropic — the official Python SDK for calling Claude
+anthropic>=0.25.0
+
+# python-dotenv — lets us load secrets from a .env file instead of hardcoding them
+python-dotenv>=1.0.0
+
+# httpx — used to download image attachments from Discord so we can pass them to Claude
+httpx>=0.27.0

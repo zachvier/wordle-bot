@@ -1,0 +1,13 @@
+[Unit]
+Description=Wordle Roast Bot
+After=network.target
+
+[Service]
+User=YOUR_USERNAME
+WorkingDirectory=/home/YOUR_USERNAME/wordle-bot
+ExecStart=/home/YOUR_USERNAME/wordle-bot/venv/bin/python bot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
