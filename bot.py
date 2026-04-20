@@ -46,8 +46,8 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin").lower()
 
 # Secret command to output the current system prompt in Discord.
 # Set ADMIN_SECRET_CMD in your .env — keep it obscure so others don't stumble on it.
-# Defaults to "SysPromptWH" if not set.
-ADMIN_SECRET_CMD = os.getenv("ADMIN_SECRET_CMD", "SysPromptWH")
+# If unset or empty, the command is disabled.
+ADMIN_SECRET_CMD = os.getenv("ADMIN_SECRET_CMD", "").strip()
 
 # Path to the file that stores recent roast history on disk.
 # Keeps the last few roasts so Claude can make callbacks and reference streaks.
@@ -329,7 +329,7 @@ roast_archive: dict = load_roast_archive()
 
 # ─────────────────────────────────────────────
 # USER MAP — LOAD / SAVE / RESOLVE
-# user_map is a dict like: {"453912146707742730": "PlayerA", ...}
+# user_map is a dict like: {"123456789012345678": "PlayerA", ...}
 # Keys are Discord user IDs (as strings, since JSON has no int keys).
 # Values are the display names we want Claude to see.
 # ─────────────────────────────────────────────
@@ -349,7 +349,7 @@ def save_user_map(user_map: dict):
 def resolve_mentions(text: str, user_map: dict) -> str:
     """Replace every <@123456789> in text with @displayname from the map.
 
-    Discord sends real mentions as raw ID strings like <@453912146707742730>
+    Discord sends real mentions as raw ID strings like <@123456789012345678>
     in message.content. Claude has no way to map those IDs back to names, so
     we do it here with a regex substitution. Unknown IDs are replaced with
     @unknown-<short-id> so the roast still flows but the missing mapping is
@@ -912,7 +912,7 @@ async def on_message(message: discord.Message):
 
     # ─────────────────────────────────────────
     # WORDLE MAP — manually set a Discord ID → display name mapping
-    # Usage: Wordle Map: 453912146707742730 PlayerName
+    # Usage: Wordle Map: 123456789012345678 PlayerName
     # Needed when Discord's display name differs from the group's nickname.
     # Overwrites any existing entry for that ID.
     # ─────────────────────────────────────────
@@ -1193,7 +1193,7 @@ async def on_message(message: discord.Message):
     # Restricted to users whose display name contains ADMIN_USERNAME.
     # Set ADMIN_SECRET_CMD in .env to customize. NOT listed in Wordle Help.
     # ─────────────────────────────────────────────
-    if content.strip() == ADMIN_SECRET_CMD:
+    if ADMIN_SECRET_CMD and content.strip() == ADMIN_SECRET_CMD:
         if ADMIN_USERNAME not in message.author.display_name.lower():
             return  # silently ignore — do not reveal the command exists
         prompt = build_system_prompt()
