@@ -180,11 +180,13 @@ def parse_scores_from_text(text: str) -> dict:
     # Match lines like "4/6: @Name1 @Name2" — the crown emoji and other
     # prefixes are ignored by searching anywhere in each line.
     for line in text.split("\n"):
-        # Find a score pattern like "3/6" or "6/6"
-        score_match = re.search(r'(\d)/6', line)
+        # Find a score pattern like "3/6", "6/6", or "X/6" (DNF).
+        # DNF is stored as 7 so it still affects averages and shows up in stats.
+        score_match = re.search(r'([\dX])/6', line, re.IGNORECASE)
         if not score_match:
             continue
-        guess_count = int(score_match.group(1))
+        raw = score_match.group(1).upper()
+        guess_count = 7 if raw == 'X' else int(raw)
         # Find all @mentions on this line — handles names with special chars
         # like player{tag} by matching @ followed by non-whitespace characters.
         names = re.findall(r'@(\S+)', line)
@@ -955,7 +957,7 @@ async def on_message(message: discord.Message):
             "`Wordle Help` — Show this message\n\n"
             "Use plain names (e.g. `PlayerName`), not @mentions."
         )
-        await message.channel.send(help_text)
+        await message.channel.send(help_text, delete_after=60)
         return
 
     # ─────────────────────────────────────────
